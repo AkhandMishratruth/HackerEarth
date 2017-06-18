@@ -1,43 +1,37 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.util.*;
+import java.io.*;
 
-public class Prateek_and_theories {
+public class Tablets {
     public static void main(String args[]) throws Exception {
         FastReader in = new FastReader();
-        int l, j, n, t = in.nextInt();
-        long guest_in, max;
-        long[] out, inn;
-        while (t-- > 0) {
-            n = in.nextInt();
-            inn = new long[n];
-            out = new long[n];
-            for (int i = 0; i < n; i++) {
-                inn[i] = in.nextLong();
-                out[i] = in.nextLong()-1;
-            }
-            Arrays.sort(inn);
-            Arrays.sort(out);
-            l = 1;
-            j = 0;
-            guest_in = 1l;
-            max = 1l;
-            while (l < n && j < n) {
-                if (inn[l] <= out[j]) {
-                    guest_in++;
-                    l++;
-                    if (max < guest_in)
-                        max = guest_in;
-                } else {
-                    guest_in--;
-                    j++;
+        long sum = 0;
+        int j, n = in.nextInt();
+        long[] ar;
+        long[] dp;
+        ar = new long[n];
+        dp = new long[n];
+        for (int i = 0; i < n; i++)
+            ar[i] = in.nextLong();
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < n; i++) {
+            if (ar[i] > ar[i - 1] && dp[i] <= dp[i - 1])
+                dp[i] = dp[i - 1] + 1;
+            else {
+                j = i - 1;
+                while (j >= 0 && ar[j] > ar[j + 1] && dp[j] <= dp[j + 1]) {
+                    dp[j] = dp[j + 1] + 1;
+                    j--;
                 }
             }
-            System.out.println(max);
         }
+
+        for (int i = 0; i < n; i++)
+            sum += dp[i];
+        dp=null;
+        ar=null;
+        System.out.println(sum);
     }
+
     static class FastReader {
         BufferedReader br;
         StringTokenizer st;
