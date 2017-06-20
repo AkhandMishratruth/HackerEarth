@@ -1,9 +1,12 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.*;
 
 public class WackyWorkout {
     public static void main(String args[]) throws Exception {
-        Scanner in = new Scanner(System.in);
+        FastReader in = new FastReader();
         long N = in.nextLong();
         long n;
         for (int i = 0; i < N; i++) {
@@ -66,4 +69,47 @@ public class WackyWorkout {
             System.out.println((exp[0][1].add(exp[1][1])).mod(BigInteger.valueOf(1000000007)));
         }
     }
+    static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader() {
+            br = new BufferedReader(new
+                    InputStreamReader(System.in));
+        }
+
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        String nextLine() {
+            String str = "";
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
+
 }
