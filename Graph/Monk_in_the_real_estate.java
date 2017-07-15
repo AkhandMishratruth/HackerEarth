@@ -1,56 +1,22 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
 
-public class WackyWorkout {
+public class Monk_in_the_real_estate {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
-        long N = in.nextLong();
-        long n;
-        for (int i = 0; i < N; i++) {
-            n = in.nextLong();
-            p.println(fibonacci(n+1));
+        int t = in.nextInt(), n;
+        Set<Integer> cities;
+        while (t-- > 0) {
+            cities = new HashSet<Integer>();
+            n = in.nextInt();
+            for (int i = 0; i < n; i++) {
+                cities.add(in.nextInt());
+                cities.add(in.nextInt());
+            }
+            p.println(cities.size());
         }
-        p.flush();
         p.close();
-    }
-
-    private static long fibonacci(long n) {
-        long[][] f = new long[][]{{1, 1}, {1, 0}};
-
-        if (n == 0)
-            return n;
-
-        power(f, n);
-        return f[0][0] % 1000000007;
-    }
-
-    private static void power(long[][] f, long n) {
-
-        if (n == 0 || n == 1)
-            return;
-
-        long[][] m = new long[][]{{1, 1}, {1, 0}};
-
-        power(f, n / 2);
-        multiply(f, f);
-
-        if (n % 2 == 1)
-            multiply(f, m);
-    }
-
-    private static void multiply(long[][] f, long[][] m) {
-
-        long x = (f[0][0] * m[0][0] + f[0][1] * m[1][0]) % 1000000007;
-        long y = (f[0][0] * m[0][1] + f[0][1] * m[1][1]) % 1000000007;
-        long z = (f[1][0] * m[0][0] + f[1][1] * m[1][0]) % 1000000007;
-        long w = (f[1][0] * m[0][1] + f[1][1] * m[1][1]) % 1000000007;
-
-        f[0][0] = x;
-        f[0][1] = y;
-        f[1][0] = z;
-        f[1][1] = w;
     }
 
     static class InputReader {
