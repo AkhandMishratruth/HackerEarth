@@ -1,37 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class  Vasya_and_Number_Theory {
+public class  BallElimination {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
         int n = in.nextInt();
-        int[] dp = new int[n];
-        Integer[] ar = new Integer[n];
-        for (int i = 0; i < n; i++)
-            ar[i] = in.nextInt();
-        Arrays.sort(ar, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o2, o1);
-            }
-        });
-        Arrays.fill(dp, 1);
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (ar[j] % ar[i] == 0 && dp[i] < dp[j] + 1) {
-                    dp[i] = dp[j] + 1;
+        int[] ar = new int[n];
+        for(int i=0;i<n;i++)
+            ar[i]=in.nextInt();
+        int[][] dp = new int[n][n];
+        for(int i=0;i<n;i++)
+            dp[i][i]=1;
+        for(int l=2;l<=n;l++) {
+            for (int start = 0; start < n - l + 1; start++) {
+                int end = start + l - 1;
+                dp[start][end]=Integer.MAX_VALUE;
+                if (ar[start] == ar[end] && l == 2)
+                    dp[start][end] = 0;
+                else if (ar[start] == ar[end])
+                    dp[start][end] = dp[start + 1][end - 1];
+                else {
+                    for (int m = start; m < end; m++) {
+                        dp[start][end] = Math.min(dp[start][end], dp[start][m] + dp[m + 1][end]);
+                    }
                 }
             }
         }
-        int max = 1;
-        for(int i=0;i<n;i++)
-            max=Math.max(max, dp[i]);
-        p.println(max);
+        p.println(dp[0][n-1]);
         p.flush();
         p.close();
     }
-
     static class InputReader {
         private InputStream stream;
         private byte[] buf = new byte[1024];
@@ -182,5 +181,12 @@ public class  Vasya_and_Number_Theory {
         public interface SpaceCharFilter {
             public boolean isSpaceChar(int ch);
         }
+    }
+}
+class FromTo{
+    int f,t;
+    FromTo(int a, int b){
+        f=a;
+        t=b;
     }
 }
