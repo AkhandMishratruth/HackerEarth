@@ -1,37 +1,46 @@
 import java.util.*;
 import java.io.*;
 
-public class FooExams {
+public class BooBooUpsolving {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter pr = new PrintWriter(System.out);
-        int t = in.nextInt();
-        while (t-->0){
-            long a = in.nextLong(), b = in.nextLong(), c = in.nextLong(), d = in.nextLong(), k = in.nextLong();
-            pr.println(bina(a,b,c,d,k));
+        int n = in.nextInt(), m = in.nextInt();
+        long[] q = new long[n];
+        long l = Long.MIN_VALUE, mid, r = 0;
+        for(int i =0;i<n;i++) {
+            q[i] = in.nextLong();
+            l = Math.max(l, q[i]);
+            r += q[i];
         }
+        while (l<=r){
+            mid=(l+r)/2;
+            //System.out.println(valCal(q, mid)+" "+l+" "+mid+" "+r);
+            if(valCal(q, mid)>m)
+                l = mid+1;
+            else
+                r = mid-1;
+        }
+        //System.out.println("a "+valCal(q, in.nextLong()));
+        pr.println(l);
         pr.flush();
         pr.close();
     }
 
-    static long funct(long a, long b, long c, long d, long t){
-        return a*t*t*t+b*t*t+c*t+d;
-    }
-
-    static long bina(long a, long b, long c, long d, long k){
-        long l =0, r =(long) Math.pow(k, 0.333333), mid=0;
-        while(l<=r){
-            mid = (l+r)/2;
-            if(funct(a,b,c,d,mid)>k)
-                r = mid-1;
+    static int valCal(long[] ar,long x) {
+        long curTime = 0;
+        int count = 1;
+        for (int i = 0; i < ar.length; i++) {
+            if (ar[i] + curTime <= x)
+                curTime += ar[i];
+            else if(ar[i]<=x){
+                curTime = ar[i];
+                count++;
+            }
             else
-                l = mid+1;
-            /*
-            else
-                return mid;*/
+                return Integer.MAX_VALUE;
         }
-
-        return (l!=0? l-1: 0);
+        return count;
     }
 
     static class InputReader {
